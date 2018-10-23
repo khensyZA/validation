@@ -1,14 +1,102 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>
-      Ionic Blank
+  <ion-navbar color="codetribe" class="navbar1">
+    <ion-title text-center>
+      REGISTER HERE
     </ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+<ion-content padding class="db_content">
+<form  [formGroup]="userFormGroup" (ngSubmit)="formSubmit(userFormGroup)">
+
+ <ion-list no-lines >
+
+    <ion-item  class="items" [ngClass]="{'error-border':!userFormGroup.controls.name.valid && userFormGroup.controls.name.touched}">
+            <ion-label floating>Name</ion-label>
+            <ion-input class="input-box" formControlName="name" type="text"></ion-input>
+        </ion-item>
+        <br>
+        <ion-item class="ion_item" *ngIf="userFormGroup.controls.name.hasError('required') && userFormGroup.controls.name.touched">
+        <p ion-text color="danger">Name field is required!</p>
+        </ion-item>
+        <br>
+        <ion-item class="ion_item" *ngIf="userFormGroup.controls.name.hasError('minlength') && userFormGroup.controls.name.touched">
+        <p ion-text color="danger">Please enter a valid name with 2 or more characters!</p>
+        </ion-item>
+        <ion-item class="ion_item" *ngIf="userFormGroup.controls.name.hasError('pattern') && userFormGroup.controls.name.touched">
+          <p ion-text color="danger">Name can only take letters!</p>
+          </ion-item>
+          <br>
+    <ion-item class="items"  [ngClass]="{'error-border':!userFormGroup.controls.username.valid && userFormGroup.controls.username.touched}">
+            <ion-label floating>Username</ion-label>
+            <ion-input class="input-box" formControlName="username" type="text"></ion-input>
+        </ion-item>
+        <br>
+        <ion-item class="ion_item" *ngIf="userFormGroup.controls.username.hasError('required') && userFormGroup.controls.username.touched">
+        <p ion-text color="danger">Username field is required!</p>
+        </ion-item>
+        <ion-item  class="ion_item" *ngIf="userFormGroup.controls.username.hasError('minlength') && userFormGroup.controls.username.touched">
+        <p ion-text color="danger">Please enter a valid username with 8 or more characters!</p>
+        </ion-item>
+     <br>  
+
+
+    <ion-item class="items" [ngClass]="{'error-border':!userFormGroup.controls.password.valid && userFormGroup.controls.password.touched}">
+            <ion-label floating>Password</ion-label>
+            <ion-input class="input-box" formControlName="password" type="password"></ion-input>
+  
+        </ion-item>
+        
+        <ion-item class="ion_item"  *ngIf="userFormGroup.controls.password.hasError('required') && userFormGroup.controls.password.touched">
+        <p ion-text color="danger">Password field is required!</p>
+        </ion-item>
+
+        <ion-item class="ion_item" *ngIf="userFormGroup.controls.password.hasError('minlength') && userFormGroup.controls.password.touched">
+        <p ion-text color="danger">Password minimum length is 6!</p>
+        </ion-item>
+      
+
+      <br>
+
+  
+    <h2>Skills</h2>
+    <button ion-button outline  color="codetribe"  style="float: right;" (click)="getSkill()"><ion-icon name="add"></ion-icon>Add new skills </button>
+
+    <div formArrayName="AddingSkillsList" margin-bottom>
+
+
+        <section [formGroupName]="x" *ngFor="let skill of userFormGroup.controls.AddingSkillsList.controls;let x = index">
+
+        <ion-item-group>
+
+       
+
+    <ion-item class="items">
+    <ion-label floating>Skills {{ x + 1 }}</ion-label>               
+    <ion-input class="input-box" type="text" maxlength="50"  FormControlName=" SkillsName"></ion-input>           
+    </ion-item>
+
+
+   <ion-item class="items">
+   <ion-label floating>Level</ion-label>
+  <ion-input class="input-box" type="text" maxlength="50" FormControlName=" SkillsLevel"></ion-input>
+</ion-item>             
+                       
+                 
+          
+  <span  float-right ion-button  color="codetribe"  icon-left clear *ngIf="userFormGroup.controls.AddingSkillsList.length > -1" (click)="RemoveField(x)">
+    <ion-icon name="close"></ion-icon>     
+    Remove   
+  </span>           
+</ion-item-group>         
+</section>       
+    
+</div>
+            
+<br>
+<button full ion-button color="codetribe"  [disabled]="userFormGroup.invalid" type="submit">Create Account</button>
+</ion-list>         
+      
+</form>   
+     
 </ion-content>
